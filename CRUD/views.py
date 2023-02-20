@@ -1,10 +1,10 @@
 from django.shortcuts import redirect,render
-from APP.models import Employees
+from APP.models import News
 def INDEX(request):
-    emp=Employees.objects.all()
+    news=News.objects.all()
 
     context={
-        'emp':emp,
+        'news':news,
     }
 
     return render(request,'index.html',context)
@@ -12,52 +12,48 @@ def INDEX(request):
 
 def ADD(request):
     if request.method=="POST":
-        name=request.POST.get('name')
-        email=request.POST.get('email')
-        address=request.POST.get('address')
-        phone=request.POST.get('phone')
+        title=request.POST.get('title')
+        news_details=request.POST.get('news_details')
 
-        emp =Employees(
-            name = name,
-            email=email,
-            address = address,
-            phone = phone
+        news =News(
+            title = title,
+            news_details = news_details
+           
         ) 
-        emp.save()
+        news.save()
         return redirect('home')
 
     return render(request,'index.html')
 def EDIT(request):
-    emp=Employees.objects.all()
+    news=News.objects.all()
 
     context = {
-        'emp':emp,
+        'news':news,
     }
 
     return redirect(request,'index.html',context)
 
 def UPDATE(request,id):
     if request.method == "POST":
-        name=request.POST.get('name')
-        email=request.POST.get('email')
-        address=request.POST.get('address')
-        phone=request.POST.get('phone')
-        emp = Employees(
+        title=request.POST.get('title')
+        
+        news_details=request.POST.get('news_details')
+       
+        news = News(
             id=id,
-            name = name,
-            email=email,
-            address=address,
-            phone =phone,
+            title = title,
+            news_details=news_details
+           
     )
-        emp.save()
+        news.save()
         return redirect('home')
     return redirect(request,'index.html')
 
 def DELETE(request,id):
-    emp=Employees.objects.filter(id=id)
-    emp.delete()
+    news=News.objects.filter(id=id)
+    news.delete()
     context={
-        'emp':emp,
+        'news':news,
 
     }
     return redirect("home")
